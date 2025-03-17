@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -47,12 +51,13 @@ fun TelaPrincipal(navController: NavController) {
             categoriaSelecionada = it
             println("Categoria alterada para: $categoriaSelecionada")
         }, navController) },
-        bottomBar = { CustomBottomBar(navController) }
-    ) { innerPadding ->
+        bottomBar = { CustomBottomBar(navController) },
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = innerPadding,
-            modifier = Modifier.padding(10.dp)
+            contentPadding = paddingValues,
+            modifier = Modifier.padding(10.dp).background(Color.White).fillMaxSize()
         ) {
             if (categoriaSelecionada != "Avaliações") {
                 items(10) { index ->
@@ -112,7 +117,8 @@ fun CustomHeader(categoriaSelecionada: String, onCategoriaSelecionada: (String) 
                 text = "icone earthmoon",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                color = Color.Black
             )
 
             IconButton(
@@ -122,7 +128,8 @@ fun CustomHeader(categoriaSelecionada: String, onCategoriaSelecionada: (String) 
                 Icon(
                     painter = painterResource(id = R.drawable.sacolaicon),
                     contentDescription = "Carrinho",
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(26.dp),
+                    tint = Color.Black
                 )
             }
         }
@@ -149,9 +156,12 @@ fun CategoryButton(text: String, categoriaSelecionada: String, onCategoriaSeleci
             containerColor = if (text == categoriaSelecionada) Color.DarkGray else Color.Black,
             contentColor = Color.White
         ),
-        modifier = Modifier.width(120.dp)
+        modifier = Modifier.width(115.dp)
     ) {
-        Text(text)
+        Text(
+            text,
+            fontSize = 12.sp,
+        )
     }
 }
 
@@ -160,7 +170,7 @@ fun CustomBottomBar(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp)
+            .padding(bottom = 50.dp)
             .zIndex(0f)
     ) {
         Row(
@@ -180,7 +190,9 @@ fun CustomBottomBar(navController: NavController) {
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.home),
+                    //painter = painterResource(id = R.drawable.home)
+                    imageVector = Icons.Default.Home,
+                    tint = Color.Black,
                     contentDescription = "Home",
                     modifier = Modifier.size(32.dp)
                 )
@@ -193,7 +205,9 @@ fun CustomBottomBar(navController: NavController) {
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.usericon),
+                    //painter = painterResource(id = R.drawable.usericon)
+                    imageVector = Icons.Default.Person,
+                    tint = Color.Black,
                     contentDescription = "Perfil",
                     modifier = Modifier.size(32.dp)
                 )

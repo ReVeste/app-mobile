@@ -2,6 +2,7 @@ package com.example.app_mobile.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,11 +31,13 @@ fun ComponentAvaliacoes(
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .height(300.dp),
-        shape = RoundedCornerShape(16.dp)
+            .height(300.dp)
+            .border(1.dp, color = Color(0xffacacac), RoundedCornerShape(5.dp))
+            .background(Color.White),
+        shape = RoundedCornerShape(5.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().background(Color.White)
         ) {
             Image(
                 painter = painterResource(id = imageResId),
@@ -42,7 +45,7 @@ fun ComponentAvaliacoes(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(2f)
-                    .background(Color.Gray)
+                    .background(Color.White)
             )
 
             Column(
@@ -50,6 +53,7 @@ fun ComponentAvaliacoes(
                     .fillMaxWidth()
                     .weight(1f)
                     .padding(6.dp)
+                    .background(Color.White)
             ) {
                 Text(
                     text = nome,

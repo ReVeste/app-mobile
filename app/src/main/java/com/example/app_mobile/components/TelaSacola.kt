@@ -1,6 +1,7 @@
 package com.example.app_mobile.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,14 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.app_mobile.R
 
 @Composable
 fun TelaSacola(navController: NavController){
@@ -46,13 +45,15 @@ fun TelaSacola(navController: NavController){
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
             if (itens.isEmpty()) {
                 Text(
                     text = "Nada no carrinho :)",
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
+                    color = Color.Black
                 )
             } else {
                 // Aqui virá a lista de itens quando houver produtos no carrinho
