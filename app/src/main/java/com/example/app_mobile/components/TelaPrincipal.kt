@@ -87,6 +87,7 @@ fun TelaPrincipal(navController: NavController) {
                             .padding(8.dp)
                             .clickable {
                                 println("Componente $index clicado na categoria $categoriaSelecionada!")
+                                navController.navigate("TelaAvaliacao/$index")
                             }
                     ) {
                         ComponentAvaliacoes(

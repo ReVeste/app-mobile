@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.app_mobile.components.TelaAvaliacao
 import com.example.app_mobile.components.TelaConta
 import com.example.app_mobile.components.TelaPeca
 import com.example.app_mobile.components.TelaPrincipal
@@ -22,6 +23,10 @@ fun AppNavigation() {
         composable(route = "TelaPeca/{index}") { backStackEntry ->
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
             TelaPeca(navController, index)
+        }
+        composable(route = "TelaAvaliacao/{index}") { backStackEntry ->
+            val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
+            TelaAvaliacao(navController, index)
         }
         composable(route = "TelaConta") { TelaConta(navController) }
         composable(route = "TelaLogin") { TelaConta(navController) }
