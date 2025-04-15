@@ -1,7 +1,6 @@
-package com.example.app_mobile
+package com.example.app_mobile.components.api
 
 import android.app.Application
-import com.example.app_mobile.components.moduloGeral
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin

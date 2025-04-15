@@ -1,5 +1,6 @@
-package com.example.app_mobile.components
+package com.example.app_mobile.components.api
 
+import com.example.app_mobile.components.api.usuario.SessaoUsuario
 import org.koin.dsl.module
 
 val moduloGeral = module {

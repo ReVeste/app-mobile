@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -27,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,10 +43,19 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.app_mobile.R
+import com.example.app_mobile.components.api.produto.ProdutoViewModel
 
 @Composable
 fun TelaPrincipal(navController: NavController) {
+
     var categoriaSelecionada by remember { mutableStateOf("Roupas") }
+    val produtoViewModel = remember { ProdutoViewModel() }
+
+    LaunchedEffect(Unit) {
+        produtoViewModel.buscarTodos()
+    }
+
+    val produtosFiltrados = produtoViewModel.filtrarPorCategoria(categoriaSelecionada)
 
     Scaffold(
         topBar = { CustomHeader(categoriaSelecionada, {
@@ -60,25 +71,40 @@ fun TelaPrincipal(navController: NavController) {
             modifier = Modifier.padding(10.dp).background(Color.White).fillMaxSize()
         ) {
             if (categoriaSelecionada != "Avaliações") {
-                items(10) { index ->
+
+                item {
+                    Column(modifier = Modifier.padding(8.dp)) {
+                        Text(
+                            text = "Qtd filtrados: ${produtosFiltrados.size}\nQtd total: ${produtoViewModel.todosProdutos.size}",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        produtosFiltrados.forEach { produto ->
+                            Text(text = "• ${produto.nome}")
+                        }
+                    }
+                }
+
+                items(produtosFiltrados) { produto ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable {
-                                println("Componente $index clicado na categoria $categoriaSelecionada!")
-                                navController.navigate("TelaPeca/$index")
+                                println("Produto ${produto.nome} clicado")
+                                navController.navigate("TelaPeca/${produto.id}")
                             }
                     ) {
                         ComponentPecas(
-                            imageResId = R.drawable.camisetakiss,
-                            nome = "Produto $index",
-                            especificacao = "Cor x, Tamanho $index",
-                            preco = 3.14,
-                            parcelas = "3x em R$1.45 sem juros"
+                            imageResId = R.drawable.camisetakiss, // pode usar imagem da API depois
+                            nome = produto.nome,
+                            especificacao = "Categoria: ${produto.categoria}",
+                            preco = produto.preco,
+                            parcelas = "3x sem juros"
                         )
                     }
                 }
+
             } else {
                 items(10) { index ->
                     Box(
