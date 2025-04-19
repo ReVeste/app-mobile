@@ -24,7 +24,8 @@ interface ProdutoApiService {
 object ProdutoApi {
 
     // é OBRIGATÓRIO que essa URL termine com /
-    private val BASE_URL = "http://localhost:8080/"
+    private val BASE_URL = "http://10.0.2.2:8080/"
+    // base url
 
     val api: ProdutoApiService by lazy{
 
