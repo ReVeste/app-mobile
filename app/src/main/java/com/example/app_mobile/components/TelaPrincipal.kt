@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.app_mobile.R
+import com.example.app_mobile.components.api.feedback.FeedbackViewModel
 import com.example.app_mobile.components.api.produto.ProdutoViewModel
 
 @Composable
@@ -50,9 +51,11 @@ fun TelaPrincipal(navController: NavController) {
 
     var categoriaSelecionada by remember { mutableStateOf("Roupas") }
     val produtoViewModel = remember { ProdutoViewModel() }
+    val feedbackViewModel = remember { FeedbackViewModel() }
 
     LaunchedEffect(Unit) {
         produtoViewModel.buscarTodos()
+        feedbackViewModel.buscarTodos()
     }
 
     val produtosFiltrados = produtoViewModel.filtrarPorCategoria(categoriaSelecionada)
@@ -98,7 +101,7 @@ fun TelaPrincipal(navController: NavController) {
                         ComponentPecas(
                             imageResId = R.drawable.camisetakiss, // pode usar imagem da API depois
                             nome = produto.nome,
-                            especificacao = "Categoria: ${produto.categoria}",
+                            especificacao = "Tamanho: ${produto.tamanho}",
                             preco = produto.preco,
                             parcelas = "3x sem juros"
                         )
@@ -106,20 +109,22 @@ fun TelaPrincipal(navController: NavController) {
                 }
 
             } else {
-                items(10) { index ->
+                val listaFeedbacks = feedbackViewModel.listaFeedbacks
+
+                items(listaFeedbacks) { feedback ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable {
-                                println("Componente $index clicado na categoria $categoriaSelecionada!")
-                                navController.navigate("TelaAvaliacao/$index")
+                                println("Feedback ${feedback.id} clicado")
+                                navController.navigate("TelaAvaliacao/${feedback.id}")
                             }
                     ) {
                         ComponentAvaliacoes(
-                            imageResId = R.drawable.camisetakiss,
-                            nome = "Título da Carta $index",
-                            especificacao = "Cor x, Tamanho $index"
+                            imageResId = R.drawable.camisetakiss, // pode ajustar se quiser imagem de usuário
+                            nome = "Nota: ${feedback.nota}",
+                            especificacao = feedback.comentario
                         )
                     }
                 }

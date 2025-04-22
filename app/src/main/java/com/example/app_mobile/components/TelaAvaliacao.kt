@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,9 +35,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_mobile.R
+import com.example.app_mobile.components.api.feedback.Feedback
+import com.example.app_mobile.components.api.feedback.FeedbackViewModel
 
 @Composable
 fun TelaAvaliacao(navController: NavController, index: Int){
+
+    val feedbackViewModel = remember { FeedbackViewModel() }
+    var feedback by remember { mutableStateOf<Feedback?>(null) }
+
+    LaunchedEffect(index) {
+        feedback = feedbackViewModel.buscarPorId(index)
+    }
 
     var mostrarMedidas by remember { mutableStateOf(false) }
 
@@ -94,14 +104,14 @@ fun TelaAvaliacao(navController: NavController, index: Int){
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Produto $index", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text("cor x, tamanho $index", fontSize = 16.sp, color = Color.Gray)
+            Text("Produto ${feedback?.id ?: "..."}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text("cor x, tamanho y", fontSize = 16.sp, color = Color.Gray)
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
             Text("Avaliação do comprador:", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text("Nome do comprador", fontSize = 16.sp, color = Color.Gray)
-            Text("Comentários do produto", fontSize = 16.sp, color = Color.Gray)
+            Text(feedback?.usuario?.nome ?: "Carregando nome...", fontSize = 16.sp, color = Color.Gray)
+            Text(feedback?.comentario ?: "Carregando comentário...", fontSize = 16.sp, color = Color.Gray)
         }
 
         val imagesAvaliacao = listOf(

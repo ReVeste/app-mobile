@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,15 +31,25 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
+import com.example.app_mobile.components.api.produto.Produto
+import com.example.app_mobile.components.api.produto.ProdutoViewModel
 
 @Composable
 fun TelaPeca(navController: NavController, index: Int) {
+
+    val produtoViewModel = remember { ProdutoViewModel() }
+    var produto by remember { mutableStateOf<Produto?>(null) }
+
+    LaunchedEffect(index) {
+        produto = produtoViewModel.buscarPorId(index)
+    }
 
     var mostrarMedidas by remember { mutableStateOf(false) }
 
@@ -95,10 +106,21 @@ fun TelaPeca(navController: NavController, index: Int) {
             }
         }
 
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("Produto $index", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text("cor x, tamanho $index", fontSize = 16.sp, color = Color.Gray)
-            Text("Por: R$3,14", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        if (produto != null) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(produto!!.nome, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text("Categoria: ${produto!!.categoria}", fontSize = 16.sp, color = Color.Gray)
+                Text("Por: R$${produto!!.preco}", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Carregando produto...", fontSize = 18.sp)
+            }
         }
 
         Row(
