@@ -6,9 +6,10 @@ data class Usuario(
     val cpf: String,
     val telefone: String,
     val email: String,
-    val senha: String,
     val tipo: String,
     val ativo: Boolean,
-    val dataCadastro: String,
-    val imagemUrl: String?
-)
+    val imagemUrl: String?,
+    val dataCadastro: String
+) {
+
+}
