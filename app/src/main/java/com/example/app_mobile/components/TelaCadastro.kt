@@ -1,8 +1,7 @@
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -11,12 +10,14 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.app_mobile.components.api.usuario.UsuarioViewModel
 
 @Composable
 fun CriarContaScreen(
     onBack: () -> Unit = {},
-    onCreateAccount: () -> Unit = {}
+    onCreateAccount: () -> Unit = {},
+    navController: NavHostController
 ) {
     val usuarioViewModel: UsuarioViewModel = viewModel()
 
@@ -35,7 +36,7 @@ fun CriarContaScreen(
             .padding(24.dp)
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
         }
 
         Text("Criar conta", fontSize = 20.sp, fontWeight = FontWeight.Bold)
@@ -97,7 +98,7 @@ fun CriarContaScreen(
             onClick = {
                 carregando = true
                 usuarioViewModel.criarConta(nome, cpf, telefone, email, senha)
-                carregando = false
+                navController.navigate("TelaConta/7")
             },
             modifier = Modifier
                 .fillMaxWidth()

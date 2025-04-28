@@ -56,6 +56,7 @@ class UsuarioViewModel : ViewModel() {
                     imagemUrl = imagemUrl
                 )
                 val resposta = UsuarioApi.api.cadastrar(request)
+                carregando = false
             } catch (e: Exception) {
                 Log.e("API", "Erro ao criar conta: ${e.message}")
                 erro = "Erro ao criar conta: ${e.message}"

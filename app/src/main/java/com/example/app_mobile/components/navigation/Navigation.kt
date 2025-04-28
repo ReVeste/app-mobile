@@ -12,8 +12,6 @@ import com.example.app_mobile.components.TelaConta
 import com.example.app_mobile.components.TelaPeca
 import com.example.app_mobile.components.TelaPrincipal
 import com.example.app_mobile.components.TelaSacola
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import android.util.Log
 
 
@@ -49,11 +47,6 @@ fun AppNavigation() {
             }
         }
 
-
-        composable(route = "VerificarTelaConta") {
-
-        }
-
         composable(route = "TelaLogin") {
             LoginScreen(
                 onBack = { navController.popBackStack() },
@@ -69,7 +62,8 @@ fun AppNavigation() {
                     navController.navigate("TelaPrincipal") {
                         popUpTo("TelaLogin") { inclusive = true }
                     }
-                }
+                },
+                navController = navController
             )
         }
 
@@ -77,8 +71,5 @@ fun AppNavigation() {
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
             TelaAvaliar(navController, index)
         }
-        composable(route = "TelaConta") { TelaConta(navController) }
-        composable(route = "TelaLogin") { TelaConta(navController) }
-        composable(route = "TelaCadastro") { TelaConta(navController) }
     }
 }
