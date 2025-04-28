@@ -10,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -20,11 +21,22 @@ interface PedidoApiService {
     @POST("/pedidos")
     suspend fun adicionarProduto(@Body pedido: PedidoAdicionarProdutoDto): CarrinhoDto
 
+    @GET("/pedidos/{idUsuario}/em-aberto")
+    suspend fun listarProdutosPedidoEmAberto(
+        @Path("idUsuario") idUsuario: Int
+    ): List<ProdutoDto>
+
     @GET("/pedidos/{idUsuario}/status")
     suspend fun buscarPorStatus(
         @Path("idUsuario") idUsuario: Int,
         @Query("status") status: String
     ): List<PedidoDto>
+
+    @DELETE("/pedidos/{idPedido}/produto/{idProduto}")
+    suspend fun removerProduto(
+        @Path("idPedido") idPedido: Int,
+        @Path("idProduto") idProduto: Int
+    )
 
 }
 

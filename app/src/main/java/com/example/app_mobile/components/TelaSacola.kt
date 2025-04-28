@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.app_mobile.components.api.pedido.PedidoDto
 import com.example.app_mobile.components.api.pedido.PedidoViewModel
 import com.example.app_mobile.components.api.produto.ProdutoDto
 import com.example.app_mobile.components.api.produto.ProdutoViewModel
@@ -47,10 +50,13 @@ import com.example.app_mobile.components.api.produto.ProdutoViewModel
 fun TelaSacola(navController: NavController) {
 
     val pedidoViewModel = remember { PedidoViewModel() }
+    var pedidoAtual : PedidoDto
     val itens = remember { mutableStateListOf<ProdutoDto>() }
 
     LaunchedEffect(Unit) {
         val produtos = pedidoViewModel.listarProdutosPedidoEmAberto(1) // Trocar pelo id do usuário na localsession(ou algo assim)
+        val pedido = pedidoViewModel.buscarPorStatus(1, "EM_ANDAMENTO")
+        pedidoAtual = pedido[0]
         itens.addAll(produtos)
     }
 
@@ -118,10 +124,13 @@ fun TelaSacola(navController: NavController) {
                                 text = "Remover da sacola",
                                 fontSize = 12.sp,
                                 color = Color.Gray,
-                                modifier = Modifier.padding(end = 8.dp)
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
                                     .clickable {
-                                        // endpoint remover produto do pedido
-
+                                        pedidoViewModel.removerProdutoPedido(
+                                            idPedido  = item.idPedido,
+                                            idProduto = item.id
+                                        )
                                     }
                             )
                         }
@@ -148,20 +157,16 @@ fun FooterPagamento() {
             .background(Color.White)
             .padding(16.dp)
     ) {
-        androidx.compose.material3.Button(
+        Button(
             onClick = { /* ação de seguir pagamento */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = Color.Black
-            )
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
         ) {
-            Text(
-                text = "Pagar com Mercado Pago",
-                color = Color.White
-            )
+            Text(text = "Pagar com Mercado Pago", color = Color.White)
         }
+
     }
 }
 
