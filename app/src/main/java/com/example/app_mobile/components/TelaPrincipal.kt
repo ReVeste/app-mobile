@@ -199,6 +199,8 @@ fun CategoryButton(text: String, categoriaSelecionada: String, onCategoriaSeleci
 
 @Composable
 fun CustomBottomBar(navController: NavController) {
+
+    val userId = null
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -233,7 +235,7 @@ fun CustomBottomBar(navController: NavController) {
             Spacer(modifier = Modifier.width(16.dp))
 
             IconButton(
-                onClick = { navController.navigate("TelaConta") },
+                onClick = { navController.navigate("TelaConta/${userId}") },
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(

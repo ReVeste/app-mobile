@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -26,21 +26,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.app_mobile.components.api.usuario.UsuarioViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.LaunchedEffect
+
 
 @Composable
-fun TelaConta(navController: NavController) {
+fun TelaConta(userId: Int?, navController: NavController) {
+
+    val usuarioViewModel: UsuarioViewModel = viewModel()
+    val usuario = usuarioViewModel.usuario
+
+    LaunchedEffect(userId) {
+        if (userId == null) {
+            navController.navigate("TelaLogin") {
+                popUpTo("TelaConta/{userId}") { inclusive = true }
+            }
+        } else {
+            usuarioViewModel.buscarUsuarioPorId(userId)
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { navController.navigate("TelaPrincipal") }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
             }
             Text(text = "Minha conta", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        InformacoesUsuario()
+        usuario?.let {
+            InformacoesUsuario(nome = it.nome, email = it.email)
+        }
 
         Divider(color = Color.LightGray, thickness = 2.dp, modifier = Modifier.padding(vertical = 16.dp).fillMaxWidth())
 
@@ -68,7 +87,7 @@ fun TelaConta(navController: NavController) {
 }
 
 @Composable
-fun InformacoesUsuario() {
+fun InformacoesUsuario(nome: String?, email: String?) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -76,7 +95,7 @@ fun InformacoesUsuario() {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text("Nome", fontWeight = FontWeight.Bold)
-                Text("Nome Usuário")
+                Text(nome?: "Nome Usuário")
             }
             Button(
                 onClick = { /* Ação de editar */ },
@@ -98,7 +117,7 @@ fun InformacoesUsuario() {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text("Endereço de e-mail", fontWeight = FontWeight.Bold)
-                Text("usuario@example.com")
+                Text(email?: "usuario@example.com")
             }
             Button(
                 onClick = { /* Ação de editar */ },
