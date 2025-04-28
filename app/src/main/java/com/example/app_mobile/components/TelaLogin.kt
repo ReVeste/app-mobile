@@ -25,7 +25,8 @@ fun LoginScreen(
     navController: NavHostController
 ) {
     val usuarioViewModel: UsuarioViewModel = viewModel()
-    val usuarioLogado = usuarioViewModel.usuarioLogado
+    var usuarioLogado = usuarioViewModel.usuarioLogado
+    var userId = 0
 
     val erro = usuarioViewModel.erro
     val carregando = usuarioViewModel.carregando
@@ -34,13 +35,7 @@ fun LoginScreen(
     var senha by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
-    LaunchedEffect(usuarioLogado) {
-        Log.d("Tela Login Launched effect", "usuario logado id: ${usuarioLogado?.userId}")
-        Log.d("Tela Login Launched effect", "usuario logado id: ${usuarioLogado?: "teste"}")
-        if (usuarioLogado != null) {
-            navController.navigate("TelaConta/${usuarioLogado.userId}")
-        }
-    }
+
 
     Column(
         modifier = Modifier
@@ -81,6 +76,7 @@ fun LoginScreen(
             onClick = {
                 Log.d("Before api", "teste 1")
                 usuarioViewModel.realizarLogin(email, senha)
+                navController.navigate("TelaConta/1")
                 Log.d("After api", "teste 2")
             },
             modifier = Modifier

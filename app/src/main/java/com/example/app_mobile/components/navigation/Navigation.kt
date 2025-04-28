@@ -38,7 +38,7 @@ fun AppNavigation() {
         }
 
         composable(route = "TelaConta/{userId}") { backStackEntry ->
-            val userId = backStackEntry.arguments?.getInt("userId")
+            val userId = backStackEntry.arguments?.getString("userId")?.toIntOrNull() ?: 0
             Log.d("debug", "${userId}")
             if (userId == 0) {
                 navController.navigate("TelaLogin")
