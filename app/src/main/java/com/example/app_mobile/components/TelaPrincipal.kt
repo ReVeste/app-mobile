@@ -75,19 +75,6 @@ fun TelaPrincipal(navController: NavController) {
         ) {
             if (categoriaSelecionada != "Avaliações") {
 
-                item {
-                    Column(modifier = Modifier.padding(8.dp)) {
-                        Text(
-                            text = "Qtd filtrados: ${produtosFiltrados.size}\nQtd total: ${produtoViewModel.todosProdutos.size}",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        produtosFiltrados.forEach { produto ->
-                            Text(text = "• ${produto.nome}")
-                        }
-                    }
-                }
-
                 items(produtosFiltrados) { produto ->
                     Box(
                         modifier = Modifier
@@ -99,7 +86,7 @@ fun TelaPrincipal(navController: NavController) {
                             }
                     ) {
                         ComponentPecas(
-                            imageResId = R.drawable.camisetakiss, // pode usar imagem da API depois
+                            imageUrl = produto.imagens[0],
                             nome = produto.nome,
                             especificacao = "Tamanho: ${produto.tamanho}",
                             preco = produto.preco,

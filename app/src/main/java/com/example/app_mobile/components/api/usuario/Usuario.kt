@@ -8,7 +8,8 @@ data class Usuario(
     val email: String,
     val tipo: String,
     val ativo: Boolean,
-    val urlFoto: String
+    val imagemUrl: String?,
+    val dataCadastro: String
 ) {
 
 }

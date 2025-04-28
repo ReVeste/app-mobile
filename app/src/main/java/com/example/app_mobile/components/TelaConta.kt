@@ -47,7 +47,9 @@ fun TelaConta(userId: Int?, navController: NavController) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { navController.navigate("TelaPrincipal") }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
@@ -61,7 +63,9 @@ fun TelaConta(userId: Int?, navController: NavController) {
             InformacoesUsuario(nome = it.nome, email = it.email)
         }
 
-        Divider(color = Color.LightGray, thickness = 2.dp, modifier = Modifier.padding(vertical = 16.dp).fillMaxWidth())
+        Divider(color = Color.LightGray, thickness = 2.dp, modifier = Modifier
+            .padding(vertical = 16.dp)
+            .fillMaxWidth())
 
         Text("Histórico de pedidos", fontWeight = FontWeight.Bold, fontSize = 18.sp)
         LazyColumn(
@@ -136,7 +140,9 @@ fun InformacoesUsuario(nome: String?, email: String?) {
 @Composable
 fun PedidoItem(nome: String, data: String, onAvaliarClick: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
@@ -144,7 +150,7 @@ fun PedidoItem(nome: String, data: String, onAvaliarClick: () -> Unit) {
             Text(data)
         }
         Button(
-            onClick = onAvaliarClick,
+            onClick = { /*navController.navigate("TelaAvaliar/${1}")*/ },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFD9D9D9),
                 contentColor = Color.Black
@@ -157,7 +163,9 @@ fun PedidoItem(nome: String, data: String, onAvaliarClick: () -> Unit) {
 
 @Composable
 fun PedidoAvaliadoItem(produto: String, data: String) {
-    Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp)) {
         Column {
             Text(produto, fontWeight = FontWeight.Bold)
             Text(data)
