@@ -23,10 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
+import com.example.app_mobile.R
 
 @Composable
 fun ComponentPecas(
-    imageResId: Int,
+    imageUrl: String,
     nome: String,
     especificacao: String,
     preco: Double,
@@ -44,9 +46,17 @@ fun ComponentPecas(
         Column(
             modifier = Modifier.fillMaxSize().background(Color.White)
         ) {
+
+            val painter = rememberImagePainter(
+                data = imageUrl,
+                builder = {
+                    crossfade(true)
+                }
+            )
+
             Image(
-                painter = painterResource(id = imageResId),
-                contentDescription = "Imagem",
+                painter = painter,
+                contentDescription = "Imagem do Produto",
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()

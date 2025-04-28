@@ -8,6 +8,7 @@ data class Feedback(
     val nota: Int,
     val comentario: String,
     val usuario: Usuario
+
 ) {
 
 }
