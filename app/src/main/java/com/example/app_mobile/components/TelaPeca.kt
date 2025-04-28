@@ -1,5 +1,6 @@
 package com.example.app_mobile.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import androidx.navigation.NavController
 import com.example.app_mobile.R
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
@@ -37,15 +39,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import coil.compose.AsyncImage
+import com.example.app_mobile.components.api.pedido.PedidoAdicionarProdutoDto
+import com.example.app_mobile.components.api.pedido.PedidoViewModel
 import com.example.app_mobile.components.api.produto.Produto
 import com.example.app_mobile.components.api.produto.ProdutoViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun TelaPeca(navController: NavController, index: Int) {
 
     val produtoViewModel = remember { ProdutoViewModel() }
     var produto by remember { mutableStateOf<Produto?>(null) }
+    val pedidoViewModel = remember { PedidoViewModel() }
+
+    val contexto = LocalContext.current
 
     LaunchedEffect(index) {
         produto = produtoViewModel.buscarPorId(index)
@@ -85,19 +97,15 @@ fun TelaPeca(navController: NavController, index: Int) {
             }
         }
 
-        val images = listOf(
-            R.drawable.camisetakiss, R.drawable.camisetakiss,
-            R.drawable.camisetakiss, R.drawable.camisetakiss
-        )
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(images) { imageRes ->
-                Image(
-                    painter = painterResource(id = imageRes),
+            items(produto?.imagens ?: emptyList()) { imagemUrl ->
+                AsyncImage(
+                    model = imagemUrl,
                     contentDescription = "Imagem do Produto",
                     modifier = Modifier
                         .size(250.dp)
@@ -144,8 +152,21 @@ fun TelaPeca(navController: NavController, index: Int) {
             )
         }
 
+        fun showToast(message: String) {
+            Toast.makeText(contexto, message, Toast.LENGTH_SHORT).show()
+        }
+
         Button(
-            onClick = { /* Adicionar ação */ },
+            onClick = {
+                showToast("Produto adicionado à sacola!")
+
+                val pedido = PedidoAdicionarProdutoDto(
+                    idUsuario = 1, // Trocar para id do usuário logado
+                    idProduto = produto?.id ?: index,
+                    quantidadeProduto = 1
+                )
+                pedidoViewModel.adicionarProduto(pedido)
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black,
                 contentColor = Color.White
