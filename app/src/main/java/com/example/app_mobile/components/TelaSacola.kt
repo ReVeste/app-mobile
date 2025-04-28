@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.app_mobile.R
 import com.example.app_mobile.components.api.pedido.PedidoDto
 import com.example.app_mobile.components.api.pedido.PedidoViewModel
 import com.example.app_mobile.components.api.produto.ProdutoDto
@@ -73,7 +75,7 @@ fun TelaSacola(navController: NavController) {
         ) {
             if (itens.isEmpty()) {
                 Text(
-                    text = "Nada no carrinho :)",
+                    text = stringResource(id = R.string.mensagem_pedido_vazio),
                     fontSize = 18.sp,
                     color = Color.Black
                 )
@@ -121,7 +123,7 @@ fun TelaSacola(navController: NavController) {
                             Spacer(modifier = Modifier.width(8.dp))
 
                             Text(
-                                text = "Remover da sacola",
+                                text = stringResource(id = R.string.botao_remover),
                                 fontSize = 12.sp,
                                 color = Color.Gray,
                                 modifier = Modifier
@@ -164,7 +166,7 @@ fun FooterPagamento() {
                 .height(50.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
         ) {
-            Text(text = "Pagar com Mercado Pago", color = Color.White)
+            Text(text = stringResource(id = R.string.header_sacola), color = Color.White)
         }
 
     }
@@ -195,7 +197,7 @@ fun CustomHeader(qtdItens: Int, navController: NavController) {
 @Composable
 fun buildHeaderText(qtdItens: Int): AnnotatedString {
     return buildAnnotatedString {
-        append("Minha sacola")
+        append(text = stringResource(id = R.string.header_sacola))
         addStyle(SpanStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold), 0, length)
 
         if (qtdItens > 0) {

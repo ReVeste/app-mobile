@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">app-mobile</string>
+    <string name="icone">icone earthmoon</string>
+    <string name="categoria_roupas">Roupas</string>
+    <string name="categoria_acessorios">Acessórios</string>
+    <string name="categoria_avaliacoes">Avaliações</string>
+    <string name="header_sacola">Minha sacola</string>
+    <string name="botao_pagar">Pagar com Mercado Pago</string>
+    <string name="botao_remover">Remover da sacola</string>
+    <string name="mensagem_pedido_vazio">Nada no carrinho :)</string>
+    <string name="meios_pagamento">💳 Meios de Pagamento</string>
+    <string name="guia_medidas">📏 Guia de Medidas</string>
+    <string name="mensagem_produto_adicionado">Produto adicionado à sacola!</string>
+    <string name="botao_adicionar_sacola">Adicionar na sacola</string>
 </resources>

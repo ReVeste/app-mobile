@@ -43,6 +43,8 @@ interface PedidoApiService {
 object PedidoApi {
 
     private val BASE_URL = "http://10.0.2.2:8080/"
+    // http://52.86.31.207/api nuvem
+    //http://10.0.2.2:8080/
 
     val api: PedidoApiService by lazy{
 

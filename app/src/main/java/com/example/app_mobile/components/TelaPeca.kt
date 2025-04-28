@@ -40,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import coil.compose.AsyncImage
 import com.example.app_mobile.components.api.pedido.PedidoAdicionarProdutoDto
@@ -138,14 +139,14 @@ fun TelaPeca(navController: NavController, index: Int) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "💳 Meios de Pagamento",
+                text = stringResource(id = R.string.meios_pagamento),
                 fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier.clickable { /* Abrir modal*/ }
             )
 
             Text(
-                text = "📏 Guia de Medidas",
+                text = stringResource(id = R.string.guia_medidas),
                 fontSize = 14.sp,
                 color = Color(0xFF642323),
                 modifier = Modifier.clickable { mostrarMedidas = !mostrarMedidas }
@@ -176,7 +177,7 @@ fun TelaPeca(navController: NavController, index: Int) {
                 .padding(16.dp),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text("Adicionar na sacola")
+            Text(text = stringResource(id = R.string.botao_adicionar_sacola))
         }
 
         if (mostrarMedidas) {
