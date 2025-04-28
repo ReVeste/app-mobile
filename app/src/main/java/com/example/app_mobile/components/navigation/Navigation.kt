@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.app_mobile.components.TelaAvaliacao
+import com.example.app_mobile.components.TelaAvaliar
 import com.example.app_mobile.components.TelaConta
 import com.example.app_mobile.components.TelaPeca
 import com.example.app_mobile.components.TelaPrincipal
