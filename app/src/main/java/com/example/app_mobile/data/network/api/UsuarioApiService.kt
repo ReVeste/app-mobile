@@ -41,7 +41,7 @@ interface UsuarioApiService {
     suspend fun cadastrar(@Body dadosCriarContaRequest: CriarContaRequest): CriarContaResponse
 
     @GET("usuarios/{id}")
-    suspend fun buscarUsuarioPorId(@Path("id") id: Int): Usuario
+    suspend fun buscarUsuarioPorId(@Path("id") id: Int): SessaoUsuario
 
 }
 

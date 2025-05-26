@@ -22,6 +22,7 @@ interface FeedbackApiService {
 
 }
 
+/*
 object FeedbackApi {
 
     // é OBRIGATÓRIO que essa URL termine com /
@@ -44,4 +45,4 @@ object FeedbackApi {
             .build()
             .create(FeedbackApiService::class.java)
     }
-}
+}*/

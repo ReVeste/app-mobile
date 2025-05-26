@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app_mobile.data.network.api.PedidoApi
 import com.example.app_mobile.data.network.api.PedidoApiService
 import com.example.app_mobile.domain.model.ProdutoDto
 import com.example.app_mobile.domain.model.SessaoUsuario
@@ -26,10 +25,16 @@ class TelaSacolaViewModel(val api : PedidoApiService, val sessaoUsuario : Sessao
     }
 
     fun atualizarProdutosPedidoEmAberto() {
+
+        if(sessaoUsuario.userId == null) {
+            return
+        }
+
         viewModelScope.launch{
         try {
             _produtosCarrinho.addAll(api.listarProdutosPedidoEmAberto(sessaoUsuario.userId!!))
         } catch (e: Exception) {
+            e.printStackTrace()
             Log.e("API", "Erro ao buscar produtos por idUsuario: ${e.message}")
             _erro.value = "Falha ao buscar produtos"
         }

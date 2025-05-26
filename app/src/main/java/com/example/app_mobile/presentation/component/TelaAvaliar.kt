@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,19 +33,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.app_mobile.R
 import com.example.app_mobile.domain.model.Feedback
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.FeedbackViewModel
+import com.example.app_mobile.presentation.viewmodel.TelaAvaliarViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TelaAvaliar(navController: NavController, idPedido: Int){
+fun TelaAvaliar(
+    navController: NavController,
+    idPedido: Int,
+    viewModel: TelaAvaliarViewModel = koinViewModel()){
 
-    val feedbackViewModel = remember { FeedbackViewModel() }
     var feedback by remember { mutableStateOf<Feedback?>(null) }
 
     LaunchedEffect(idPedido) {
-        feedback = feedbackViewModel.buscarPorId(idPedido)
+        feedback = viewModel.buscarPorId(idPedido)
     }
-
-    var mostrarMedidas by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -56,7 +58,7 @@ fun TelaAvaliar(navController: NavController, idPedido: Int){
         ) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Voltar"
                 )
             }

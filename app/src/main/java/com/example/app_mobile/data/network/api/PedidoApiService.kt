@@ -39,24 +39,3 @@ interface PedidoApiService {
     )
 
 }
-
-object PedidoApi {
-
-    private val BASE_URL = BASE_URL_REVESTE_API
-    // http://52.86.31.207/api nuvem
-    //http://10.0.2.2:8080/
-
-    val api: PedidoApiService by lazy{
-
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val clienteHttp = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(clienteHttp) // interceptor de log, opcional
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(PedidoApiService::class.java)
-    }
-}

@@ -2,6 +2,7 @@ package com.example.app_mobile.presentation.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -21,18 +22,26 @@ class TelaPecaViewModel(val apiPedido : PedidoApiService,
                         val apiProduto : ProdutoApiService,
                         val sessaoUsuario : SessaoUsuario) : ViewModel() {
 
+    var produto by mutableStateOf<Produto?>(null)
+        private set
+
     var carregando by mutableStateOf(false)
         private set
 
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> = _erro
 
-    fun buscarPorId(id: Int): Produto? {
-        return try {
-            apiProduto.buscarPorId(id)
-        } catch (e: Exception) {
-            Log.e("API", "Erro ao buscar produto por ID: ${e.message}")
-            null
+    fun buscarPorId(id: Int) {
+        viewModelScope.launch {
+            carregando = true
+            try {
+                produto = apiProduto.buscarPorId(id)
+            } catch (e: Exception) {
+                Log.e("API", "Erro ao buscar produto por ID: ${e.message}")
+                _erro.value = "Erro ao buscar produto"
+            } finally {
+                carregando = false
+            }
         }
     }
 

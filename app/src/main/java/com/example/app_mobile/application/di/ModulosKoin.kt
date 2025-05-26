@@ -7,8 +7,10 @@ import com.example.app_mobile.data.network.api.PedidoApiService
 import com.example.app_mobile.data.network.api.ProdutoApiService
 import com.example.app_mobile.domain.model.SessaoUsuario
 import com.example.app_mobile.data.network.api.UsuarioApiService
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.UsuarioViewModel
 import com.example.app_mobile.data.network.interceptor.TokenInterceptor
+import com.example.app_mobile.presentation.viewmodel.TelaAvaliacaoViewModel
+import com.example.app_mobile.presentation.viewmodel.TelaAvaliarViewModel
+import com.example.app_mobile.presentation.viewmodel.TelaContaViewModel
 import com.example.app_mobile.presentation.viewmodel.TelaLoginCadastroViewModel
 import com.example.app_mobile.presentation.viewmodel.TelaPecaViewModel
 import com.example.app_mobile.presentation.viewmodel.TelaPrincipalViewModel
@@ -65,32 +67,28 @@ val moduloGeral = module {
         get<Retrofit>().create(EnderecoApiService::class.java)
     }
 
-    viewModel<UsuarioViewModel> {
-        UsuarioViewModel(get<UsuarioApiService>(),get<SessaoUsuario>())
+     viewModel<TelaAvaliacaoViewModel> {
+        TelaAvaliacaoViewModel(get<FeedbackApiService>())
     }
 
-    /* viewModel<TelaAvaliacaoViewModel> {
-        TelaAvaliacaoViewModel(get<SessaoUsuario>())
-    } */
+    viewModel<TelaAvaliarViewModel> {
+        TelaAvaliarViewModel(get<FeedbackApiService>(), get<PedidoApiService>())
+    }
 
-    /* viewModel<TelaAvaliarViewModel> {
-        TelaAvaliarViewModel(get<SessaoUsuario>())
-    } */
+    viewModel<TelaContaViewModel> {
+        TelaContaViewModel(get<UsuarioApiService>(), get<SessaoUsuario>())
+    }
 
-    /* viewModel<TelaContaViewModel> {
-        TelaContaViewModel(get<SessaoUsuario>())
-    } */
-
-    /* viewModel<TelaLoginCadastroViewModel> {
-        TelaLoginCadastroViewModel(get<SessaoUsuario>())
-    } */
+    viewModel<TelaLoginCadastroViewModel> {
+        TelaLoginCadastroViewModel(get<UsuarioApiService>(), get<SessaoUsuario>())
+    }
 
     viewModel<TelaPecaViewModel> {
         TelaPecaViewModel(get<PedidoApiService>(), get<ProdutoApiService>(), get<SessaoUsuario>())
     }
 
     viewModel<TelaPrincipalViewModel> {
-        TelaPrincipalViewModel(get<ProdutoApiService>(),get<SessaoUsuario>())
+        TelaPrincipalViewModel(get<ProdutoApiService>(), get<FeedbackApiService>(), get<SessaoUsuario>())
     }
 
     viewModel<TelaSacolaViewModel> {

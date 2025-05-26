@@ -46,7 +46,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.app_mobile.R
 import com.example.app_mobile.presentation.viewmodel.TelaPrincipalViewModel
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.FeedbackViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -56,11 +55,10 @@ fun TelaPrincipal(
 ) {
 
     var categoriaSelecionada by remember { mutableStateOf("Roupas") }
-    val feedbackViewModel = remember { FeedbackViewModel() }
 
     LaunchedEffect(Unit) {
         viewModel.buscarTodos()
-        feedbackViewModel.buscarTodos()
+        viewModel.buscarTodosFeedback()
     }
 
     val produtosFiltrados = viewModel.filtrarPorCategoria(categoriaSelecionada)
@@ -101,7 +99,7 @@ fun TelaPrincipal(
                 }
 
             } else {
-                val listaFeedbacks = feedbackViewModel.listaFeedbacks
+                val listaFeedbacks = viewModel.feedbacks
 
                 items(listaFeedbacks) { feedback ->
                     Box(

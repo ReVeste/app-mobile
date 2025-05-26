@@ -17,9 +17,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.UsuarioViewModel
 import androidx.navigation.NavHostController
 import com.example.app_mobile.domain.model.SessaoUsuario
+import com.example.app_mobile.presentation.viewmodel.TelaLoginCadastroViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
@@ -27,14 +28,14 @@ fun LoginScreen(
     onBack: () -> Unit = {},
     onCreateAccount: () -> Unit = {},
     navController: NavHostController,
-    usuarioViewModel: UsuarioViewModel = viewModel()
+    viewModel : TelaLoginCadastroViewModel = koinViewModel()
 ) {
 
     var usuarioLogado = koinInject<SessaoUsuario>()
     var userId = 0
 
-    val erro = usuarioViewModel.erro
-    val carregando = usuarioViewModel.carregando
+    val erro = viewModel.erro
+    val carregando = viewModel.carregando
 
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
@@ -80,7 +81,7 @@ fun LoginScreen(
         Button(
             onClick = {
                 Log.d("Before api", "teste 1")
-                usuarioViewModel.realizarLogin(email, senha)
+                viewModel.realizarLogin(email, senha)
                 navController.navigate("TelaConta/1")
                 Log.d("After api", "teste 2")
             },

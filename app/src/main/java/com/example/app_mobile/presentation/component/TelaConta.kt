@@ -26,24 +26,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.UsuarioViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.LaunchedEffect
+import com.example.app_mobile.presentation.viewmodel.TelaContaViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun TelaConta(userId: Int?, navController: NavController, usuarioViewModel: UsuarioViewModel = viewModel()) {
+fun TelaConta(
+              navController: NavController,
+              viewModel: TelaContaViewModel = koinViewModel()
+) {
 
+    val usuario = viewModel.usuario
 
-    val usuario = usuarioViewModel.usuario
-
-    LaunchedEffect(userId) {
-        if (userId == null) {
+    LaunchedEffect(usuario) {
+        if (usuario?.userId == null) {
             navController.navigate("TelaLogin") {
-                popUpTo("TelaConta/{userId}") { inclusive = true }
+                popUpTo("TelaConta") { inclusive = true }
             }
         } else {
-            usuarioViewModel.buscarUsuarioPorId(userId)
+            viewModel.buscarUsuarioPorId(usuario.userId!!)
         }
     }
 

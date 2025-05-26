@@ -10,7 +10,7 @@ interface ProdutoApiService {
     suspend fun buscarTodos(): List<Produto>
 
     @GET("produtos/{id}")
-    fun buscarPorId(
+    suspend fun buscarPorId(
         @Path("id") id: Int
     ): Produto
 

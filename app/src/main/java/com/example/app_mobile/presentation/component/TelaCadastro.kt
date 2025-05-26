@@ -13,15 +13,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.UsuarioViewModel
+import com.example.app_mobile.presentation.viewmodel.TelaLoginCadastroViewModel
+import com.example.app_mobile.presentation.viewmodel.TelaSacolaViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CriarContaScreen(
     onBack: () -> Unit = {},
     onCreateAccount: () -> Unit = {},
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel : TelaLoginCadastroViewModel = koinViewModel()
 ) {
-    val usuarioViewModel: UsuarioViewModel = viewModel()
 
     var nome by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -99,7 +101,7 @@ fun CriarContaScreen(
         Button(
             onClick = {
                 carregando = true
-                usuarioViewModel.criarConta(nome, cpf, telefone, email, senha)
+                viewModel.criarConta(nome, cpf, telefone, email, senha)
                 navController.navigate("TelaConta/7")
             },
             modifier = Modifier

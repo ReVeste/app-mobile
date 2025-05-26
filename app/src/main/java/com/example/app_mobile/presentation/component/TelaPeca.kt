@@ -45,10 +45,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.app_mobile.domain.model.PedidoAdicionarProdutoDto
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.PedidoViewModel
 import com.example.app_mobile.domain.model.Produto
 import com.example.app_mobile.presentation.viewmodel.TelaPecaViewModel
-import com.example.app_mobile.presentation.viewmodel.oldviewmodels.UsuarioViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -57,7 +55,11 @@ fun TelaPeca(navController: NavController,
              viewModel: TelaPecaViewModel = koinViewModel()
 ) {
 
-    val produto = viewModel.buscarPorId(index)
+    LaunchedEffect(Unit) {
+        viewModel.buscarPorId(index)
+    }
+
+    val produto = viewModel.produto
     val contexto = LocalContext.current
     var mostrarMedidas by remember { mutableStateOf(false) }
 
