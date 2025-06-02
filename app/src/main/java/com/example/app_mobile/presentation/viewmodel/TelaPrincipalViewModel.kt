@@ -12,7 +12,6 @@ import com.example.app_mobile.data.network.api.PedidoApiService
 import com.example.app_mobile.data.network.api.ProdutoApiService
 import com.example.app_mobile.domain.model.Feedback
 import com.example.app_mobile.domain.model.Produto
-import com.example.app_mobile.domain.model.ProdutoDto
 import com.example.app_mobile.domain.model.SessaoUsuario
 import kotlinx.coroutines.launch
 
@@ -43,6 +42,7 @@ class TelaPrincipalViewModel(
             carregando = true
             erro = null
             try {
+                _todosProdutos.clear()
                 _todosProdutos.addAll(apiProduto.buscarTodos())
             } catch (e: Exception) {
                 Log.e("API", "Erro ao buscar produtos: ${e.message}")

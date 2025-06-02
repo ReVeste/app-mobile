@@ -18,24 +18,24 @@ import retrofit2.http.Query
 
 interface PedidoApiService {
 
-    @POST("/pedidos")
+    @POST("pedidos")
     suspend fun adicionarProduto(@Body pedido: PedidoAdicionarProdutoDto): CarrinhoDto
 
-    @GET("/pedidos/{idUsuario}/em-aberto")
+    @GET("pedidos/{idUsuario}/em-aberto")
     suspend fun listarProdutosPedidoEmAberto(
         @Path("idUsuario") idUsuario: Int
     ): List<ProdutoDto>
 
-    @GET("/pedidos/{idUsuario}/status")
-    suspend fun buscarPorStatus(
-        @Path("idUsuario") idUsuario: Int,
-        @Query("status") status: String
-    ): List<PedidoDto>
-
-    @DELETE("/pedidos/{idPedido}/produto/{idProduto}")
+    @DELETE("pedidos/{idPedido}/produto/{idProduto}")
     suspend fun removerProduto(
         @Path("idPedido") idPedido: Int,
         @Path("idProduto") idProduto: Int
     )
+
+    @GET("pedidos/{idUsuario}/status")
+    suspend fun buscarPorStatus(
+        @Path("idUsuario") idUsuario: Int,
+        @Query("status") status: String
+    ): List<PedidoDto>
 
 }

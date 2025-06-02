@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +50,11 @@ import org.koin.androidx.compose.koinViewModel
 fun TelaSacola(navController: NavController,
                viewModel : TelaSacolaViewModel = koinViewModel()) {
 
-    val itens = viewModel.produtosCarrinho
+    LaunchedEffect(Unit) {
+        viewModel.atualizarProdutosPedidoEmAberto()
+    }
+
+    val itens = viewModel._produtosCarrinho
 
     Scaffold(
         topBar = { CustomHeader(itens.size, navController) },
@@ -98,7 +103,7 @@ fun TelaSacola(navController: NavController,
                                     color = Color.Black
                                 )
                                 Text(
-                                    text = "cor preta, ${item.tamanho}",
+                                    text = "Tamanho: ${item.tamanho}",
                                     fontSize = 14.sp,
                                     color = Color.Gray
                                 )
@@ -114,7 +119,7 @@ fun TelaSacola(navController: NavController,
                             Text(
                                 text = stringResource(id = R.string.botao_remover),
                                 fontSize = 12.sp,
-                                color = Color.Gray,
+                                color = Color.Red,
                                 modifier = Modifier
                                     .padding(end = 8.dp)
                                     .clickable {

@@ -32,13 +32,16 @@ fun LoginScreen(
 ) {
 
     var usuarioLogado = koinInject<SessaoUsuario>()
-    var userId = 0
+
+    if(usuarioLogado.token != null) {
+        navController.navigate("TelaConta/${usuarioLogado.userId}")
+    }
 
     val erro = viewModel.erro
     val carregando = viewModel.carregando
 
-    var email by remember { mutableStateOf("") }
-    var senha by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("pedro.saraujo@sptech.school") }
+    var senha by remember { mutableStateOf("123456") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
 
@@ -82,8 +85,6 @@ fun LoginScreen(
             onClick = {
                 Log.d("Before api", "teste 1")
                 viewModel.realizarLogin(email, senha)
-                navController.navigate("TelaConta/1")
-                Log.d("After api", "teste 2")
             },
             modifier = Modifier
                 .fillMaxWidth()

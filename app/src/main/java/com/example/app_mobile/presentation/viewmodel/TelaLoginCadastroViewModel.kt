@@ -10,7 +10,6 @@ import com.example.app_mobile.data.network.api.CriarContaRequest
 import com.example.app_mobile.data.network.api.LoginRequest
 import com.example.app_mobile.data.network.api.UsuarioApiService
 import com.example.app_mobile.domain.model.SessaoUsuario
-import com.example.app_mobile.domain.model.Usuario
 import kotlinx.coroutines.launch
 
 class TelaLoginCadastroViewModel(val api: UsuarioApiService, val usuarioLogado: SessaoUsuario) : ViewModel() {
@@ -19,6 +18,9 @@ class TelaLoginCadastroViewModel(val api: UsuarioApiService, val usuarioLogado: 
         private set
 
     var erro by mutableStateOf<String?>(null)
+        private set
+
+    var mensagemSucesso by mutableStateOf<String?>(null)
         private set
 
     fun realizarLogin(email: String, senha: String) {
@@ -31,6 +33,9 @@ class TelaLoginCadastroViewModel(val api: UsuarioApiService, val usuarioLogado: 
                 usuarioLogado.nome = resposta.nome
                 usuarioLogado.email = resposta.email
                 usuarioLogado.token = resposta.token
+
+                mensagemSucesso = "Login realizado com sucesso!"
+
             } catch (e: Exception) {
                 Log.e("API", "Erro ao realizar login: ${e.message}")
                 erro = "Erro ao realizar login: ${e.message}"
@@ -52,7 +57,9 @@ class TelaLoginCadastroViewModel(val api: UsuarioApiService, val usuarioLogado: 
                     senha = senha,
                     imagemUrl = imagemUrl
                 )
-                val resposta = api.cadastrar(request)
+                api.cadastrar(request)
+
+                mensagemSucesso = "Cadastro realizado com sucesso!"
                 carregando = false
             } catch (e: Exception) {
                 Log.e("API", "Erro ao criar conta: ${e.message}")

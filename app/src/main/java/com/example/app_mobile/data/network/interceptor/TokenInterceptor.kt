@@ -14,6 +14,9 @@ class TokenInterceptor(val token: String): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         Log.i("api", "token para header: $token")
 
+        if(chain.request().url.toString().endsWith("usuarios/login")){
+            return chain.proceed(chain.request())
+        }
         // Crie uma nova requisição com o cabeçalho adicionado
         val requisicao = chain.request().newBuilder()
             .header("Authorization", "Bearer $token") // Adiciona o cabeçalho de autorização

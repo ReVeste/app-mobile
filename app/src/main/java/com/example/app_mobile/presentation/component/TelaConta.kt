@@ -26,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.LaunchedEffect
 import com.example.app_mobile.presentation.viewmodel.TelaContaViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -38,15 +37,13 @@ fun TelaConta(
               viewModel: TelaContaViewModel = koinViewModel()
 ) {
 
-    val usuario = viewModel.usuario
+    var usuario = viewModel.usuarioLogado
 
     LaunchedEffect(usuario) {
-        if (usuario?.userId == null) {
+        if (usuario.userId == null) {
             navController.navigate("TelaLogin") {
                 popUpTo("TelaConta") { inclusive = true }
             }
-        } else {
-            viewModel.buscarUsuarioPorId(usuario.userId!!)
         }
     }
 
@@ -62,7 +59,7 @@ fun TelaConta(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        usuario?.let {
+        usuario.let {
             InformacoesUsuario(nome = it.nome, email = it.email)
         }
 
@@ -104,16 +101,6 @@ fun InformacoesUsuario(nome: String?, email: String?) {
                 Text("Nome", fontWeight = FontWeight.Bold)
                 Text(nome?: "Nome Usuário")
             }
-            Button(
-                onClick = { /* Ação de editar */ },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD9D9D9),
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier.size(width = 80.dp, height = 32.dp)
-            ) {
-                Text("Editar", fontSize = 12.sp)
-            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -125,16 +112,6 @@ fun InformacoesUsuario(nome: String?, email: String?) {
             Column(modifier = Modifier.weight(1f)) {
                 Text("Endereço de e-mail", fontWeight = FontWeight.Bold)
                 Text(email?: "usuario@example.com")
-            }
-            Button(
-                onClick = { /* Ação de editar */ },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFD9D9D9),
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier.size(width = 80.dp, height = 32.dp)
-            ) {
-                Text("Editar", fontSize = 12.sp)
             }
         }
     }

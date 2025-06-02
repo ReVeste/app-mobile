@@ -13,9 +13,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.app_mobile.domain.model.SessaoUsuario
 import com.example.app_mobile.presentation.viewmodel.TelaLoginCadastroViewModel
 import com.example.app_mobile.presentation.viewmodel.TelaSacolaViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun CriarContaScreen(
@@ -32,6 +34,9 @@ fun CriarContaScreen(
     var telefone by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
     var carregando by remember { mutableStateOf(false) }
+
+    val erro = viewModel.erro
+    val mensagemSucesso = viewModel.mensagemSucesso
 
 
     Column(
@@ -102,7 +107,7 @@ fun CriarContaScreen(
             onClick = {
                 carregando = true
                 viewModel.criarConta(nome, cpf, telefone, email, senha)
-                navController.navigate("TelaConta/7")
+                navController.navigate("TelaLogin")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -112,6 +117,17 @@ fun CriarContaScreen(
         ) {
             Text(if (carregando) "Criando conta..." else "Criar conta", color = Color.White)
         }
+
+        if (erro != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(erro, color = Color.Red)
+        }
+
+        if (mensagemSucesso != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(mensagemSucesso, color = Color.Green)
+        }
+
     }
         Spacer(modifier = Modifier.height(16.dp))
 

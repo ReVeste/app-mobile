@@ -42,7 +42,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.app_mobile.R
 import com.example.app_mobile.presentation.viewmodel.TelaPrincipalViewModel
@@ -51,24 +50,24 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun TelaPrincipal(
     navController: NavController,
-    viewModel: TelaPrincipalViewModel = koinViewModel()
+    telaPrincipalViewModel: TelaPrincipalViewModel = koinViewModel()
 ) {
 
     var categoriaSelecionada by remember { mutableStateOf("Roupas") }
 
     LaunchedEffect(Unit) {
-        viewModel.buscarTodos()
-        viewModel.buscarTodosFeedback()
+        telaPrincipalViewModel.buscarTodos()
+        telaPrincipalViewModel.buscarTodosFeedback()
     }
 
-    val produtosFiltrados = viewModel.filtrarPorCategoria(categoriaSelecionada)
+    val produtosFiltrados = telaPrincipalViewModel.filtrarPorCategoria(categoriaSelecionada)
 
     Scaffold(
         topBar = { CustomHeader(categoriaSelecionada, {
             categoriaSelecionada = it
             println("Categoria alterada para: $categoriaSelecionada")
         }, navController) },
-        bottomBar = { CustomBottomBar(navController) },
+        bottomBar = { CustomBottomBar(navController, telaPrincipalViewModel) },
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
         LazyVerticalGrid(
@@ -99,7 +98,7 @@ fun TelaPrincipal(
                 }
 
             } else {
-                val listaFeedbacks = viewModel.feedbacks
+                val listaFeedbacks = telaPrincipalViewModel.feedbacks
 
                 items(listaFeedbacks) { feedback ->
                     Box(
@@ -188,7 +187,7 @@ fun CategoryButton(text: String, categoriaSelecionada: String, onCategoriaSeleci
 }
 
 @Composable
-fun CustomBottomBar(navController: NavController) {
+fun CustomBottomBar(navController: NavController, telaPrincipalViewModel: TelaPrincipalViewModel) {
 
     Box(
         modifier = Modifier
@@ -224,7 +223,14 @@ fun CustomBottomBar(navController: NavController) {
             Spacer(modifier = Modifier.width(16.dp))
 
             IconButton(
-                onClick = { navController.navigate("TelaLogin") },
+                onClick = {
+
+                    if (telaPrincipalViewModel.sessaoUsuario.userId == null) {
+                        navController.navigate("TelaLogin")
+                    } else {
+                        navController.navigate("TelaConta/${telaPrincipalViewModel.sessaoUsuario.userId}")
+                    }
+                          },
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(

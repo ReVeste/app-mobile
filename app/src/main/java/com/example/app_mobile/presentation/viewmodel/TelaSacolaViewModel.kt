@@ -14,15 +14,11 @@ import retrofit2.HttpException
 
 class TelaSacolaViewModel(val api : PedidoApiService, val sessaoUsuario : SessaoUsuario) : ViewModel() {
 
-    private val _produtosCarrinho = mutableStateListOf<ProdutoDto>()
+    val _produtosCarrinho = mutableStateListOf<ProdutoDto>()
     val produtosCarrinho: List<ProdutoDto> = _produtosCarrinho.toList()
 
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> = _erro
-
-    init {
-        atualizarProdutosPedidoEmAberto()
-    }
 
     fun atualizarProdutosPedidoEmAberto() {
 
@@ -32,7 +28,9 @@ class TelaSacolaViewModel(val api : PedidoApiService, val sessaoUsuario : Sessao
 
         viewModelScope.launch{
         try {
+            _produtosCarrinho.clear()
             _produtosCarrinho.addAll(api.listarProdutosPedidoEmAberto(sessaoUsuario.userId!!))
+            Log.e("API", "Busca de produtos por idUsuario concluida: ${_produtosCarrinho.toList()}")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("API", "Erro ao buscar produtos por idUsuario: ${e.message}")

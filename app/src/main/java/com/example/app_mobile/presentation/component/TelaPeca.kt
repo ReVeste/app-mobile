@@ -115,7 +115,8 @@ fun TelaPeca(navController: NavController,
         if (produto != null) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(produto.nome, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Categoria: ${produto.categoria}", fontSize = 16.sp, color = Color.Gray)
+                Text("Tamanho: ${produto.tamanho}", fontSize = 16.sp, color = Color.Gray)
+                Text(produto.descricao, fontSize = 10.sp)
                 Text("Por: R$${produto.preco}", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Black)
             }
         } else {
