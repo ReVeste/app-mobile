@@ -27,6 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AppNavigation() {
     val navController = rememberNavController()
     val telaAvaliacaoViewModel : TelaAvaliacaoViewModel = koinViewModel()
+    val telaAvaliarViewModel : TelaAvaliarViewModel = koinViewModel()
     val telaContaViewModel : TelaContaViewModel = koinViewModel()
     val telaLoginCadastroViewModel : TelaLoginCadastroViewModel = koinViewModel()
     val telaPecaViewModel : TelaPecaViewModel = koinViewModel()
@@ -47,7 +48,7 @@ fun AppNavigation() {
 
         composable(route = "TelaAvaliacao/{index}") { backStackEntry ->
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
-            TelaAvaliacao(navController, index)
+            TelaAvaliacao(navController, index, telaAvaliacaoViewModel)
         }
 
         composable(route = "TelaConta/{userId}") { backStackEntry ->
@@ -85,7 +86,7 @@ fun AppNavigation() {
 
         composable(route = "TelaAvaliar/{index}") { backStackEntry ->
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
-            TelaAvaliar(navController, index)
+            TelaAvaliar(navController, index, telaAvaliarViewModel)
         }
     }
 }

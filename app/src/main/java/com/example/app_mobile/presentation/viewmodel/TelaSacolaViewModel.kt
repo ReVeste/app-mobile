@@ -1,6 +1,7 @@
 package com.example.app_mobile.presentation.viewmodel
 
 import android.util.Log
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -54,7 +55,5 @@ class TelaSacolaViewModel(val api : PedidoApiService, val sessaoUsuario : Sessao
             }
         }
     }
-
-    // falta remover todos
 
 }

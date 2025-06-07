@@ -73,7 +73,10 @@ fun TelaPrincipal(
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = paddingValues,
-            modifier = Modifier.padding(10.dp).background(Color.White).fillMaxSize()
+            modifier = Modifier
+                .padding(10.dp)
+                .background(Color.White)
+                .fillMaxSize()
         ) {
             if (categoriaSelecionada != "Avaliações") {
 
@@ -92,13 +95,13 @@ fun TelaPrincipal(
                             nome = produto.nome,
                             especificacao = "Tamanho: ${produto.tamanho}",
                             preco = produto.preco,
-                            parcelas = "3x sem juros"
+                            parcelas = ""
                         )
                     }
                 }
 
             } else {
-                val listaFeedbacks = telaPrincipalViewModel.feedbacks
+                val listaFeedbacks = telaPrincipalViewModel._todosFeedbacks
 
                 items(listaFeedbacks) { feedback ->
                     Box(
@@ -111,9 +114,9 @@ fun TelaPrincipal(
                             }
                     ) {
                         ComponentAvaliacoes(
-                            imageResId = R.drawable.camisetakiss, // pode ajustar se quiser imagem de usuário
-                            nome = "Nota: ${feedback.nota}",
-                            especificacao = feedback.comentario
+                            imageUrl = feedback.imagensFeedbacks[0].imagemUrl,
+                            nome = feedback.usuario.nome,
+                            especificacao = ""
                         )
                     }
                 }
@@ -212,7 +215,6 @@ fun CustomBottomBar(navController: NavController, telaPrincipalViewModel: TelaPr
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(
-                    //painter = painterResource(id = R.drawable.home)
                     imageVector = Icons.Default.Home,
                     tint = Color.Black,
                     contentDescription = "Home",

@@ -23,19 +23,13 @@ class TelaPrincipalViewModel(
     private val _todosProdutos = mutableStateListOf<Produto>()
     val produtos: List<Produto> = _todosProdutos.toList()
 
-    private val _todosFeedbacks = mutableStateListOf<Feedback>()
-    var feedbacks: List<Feedback> = _todosFeedbacks.toList()
+    val _todosFeedbacks = mutableStateListOf<Feedback>()
 
     var carregando by mutableStateOf(false)
         private set
 
     var erro by mutableStateOf<String?>(null)
         private set
-
-    init {
-        buscarTodos()
-        buscarTodosFeedback()
-    }
 
     fun buscarTodos() {
         viewModelScope.launch {
@@ -66,6 +60,7 @@ class TelaPrincipalViewModel(
             carregando = true
             erro = null
             try {
+                _todosFeedbacks.clear()
                 _todosFeedbacks.addAll(apiFeedback.buscarTodos())
             } catch (e: Exception) {
                 erro = "Erro ao buscar feedbacks: ${e.message}"

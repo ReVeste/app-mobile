@@ -68,15 +68,15 @@ val moduloGeral = module {
     }
 
      viewModel<TelaAvaliacaoViewModel> {
-        TelaAvaliacaoViewModel(get<FeedbackApiService>())
+        TelaAvaliacaoViewModel(get<FeedbackApiService>(), get<PedidoApiService>())
     }
 
     viewModel<TelaAvaliarViewModel> {
-        TelaAvaliarViewModel(get<FeedbackApiService>(), get<PedidoApiService>())
+        TelaAvaliarViewModel(get<FeedbackApiService>(), get<PedidoApiService>(), get<SessaoUsuario>())
     }
 
     viewModel<TelaContaViewModel> {
-        TelaContaViewModel(get<UsuarioApiService>(), get<SessaoUsuario>())
+        TelaContaViewModel(get<UsuarioApiService>(), get<SessaoUsuario>(), get<PedidoApiService>())
     }
 
     viewModel<TelaLoginCadastroViewModel> {

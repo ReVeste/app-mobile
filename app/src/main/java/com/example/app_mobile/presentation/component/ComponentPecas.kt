@@ -85,7 +85,7 @@ fun ComponentPecas(
                     Text(
                         text = "R$"+preco,
                         color = Color.Black,
-                        fontSize = 10.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(

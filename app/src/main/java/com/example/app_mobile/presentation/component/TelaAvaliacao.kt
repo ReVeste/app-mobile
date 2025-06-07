@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.app_mobile.R
 import com.example.app_mobile.domain.model.Feedback
 import com.example.app_mobile.presentation.viewmodel.TelaAvaliacaoViewModel
@@ -42,11 +43,12 @@ fun TelaAvaliacao(
     index: Int,
     viewModel: TelaAvaliacaoViewModel = koinViewModel()){
 
-    var feedback by remember { mutableStateOf<Feedback?>(null) }
-
-    LaunchedEffect(index) {
-        feedback = viewModel.buscarPorId(index)
+    LaunchedEffect(Unit) {
+        viewModel.buscarPorId(index)
     }
+
+    val feedback = viewModel.feedback
+    val pedido = viewModel.pedido
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -80,56 +82,79 @@ fun TelaAvaliacao(
             }
         }
 
-        val images = listOf(
-            R.drawable.camisetakiss, R.drawable.camisetakiss,
-            R.drawable.camisetakiss, R.drawable.camisetakiss
-        )
+        val imagensPedido = pedido?.produtos?.get(0)?.imagens
+            ?.take(4)
+            ?: emptyList()
+
+        val imagensCompletasPedido = buildList {
+            addAll(imagensPedido)
+
+            val faltantes = 4 - size
+        }
+
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(images) { imageRes ->
-                Image(
-                    painter = painterResource(id = imageRes),
-                    contentDescription = "Imagem do Produto",
-                    modifier = Modifier
-                        .size(250.dp)
-                        .padding(horizontal = 8.dp)
-                )
+            items(imagensCompletasPedido) { image ->
+                val painter = when (image) {
+                    else -> rememberAsyncImagePainter(model = image)
+                }
+
+                painter.let {
+                    Image(
+                        painter = it,
+                        contentDescription = "Imagem do Produto",
+                        modifier = Modifier
+                            .size(250.dp)
+                            .padding(horizontal = 8.dp)
+                    )
+                }
             }
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Produto ${feedback?.id ?: "..."}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text("cor x, tamanho y", fontSize = 16.sp, color = Color.Gray)
+            Text(pedido?.produtos?.get(0)?.nome ?: "...", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         }
 
         Column(modifier = Modifier.padding(16.dp)) {
             Text("Avaliação do comprador:", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text(feedback?.usuario?.nome ?: "Carregando nome...", fontSize = 16.sp, color = Color.Gray)
+            Text(feedback?.usuario?.nome ?: "Carregando nome...", fontSize = 18.sp, color = Color.Black)
             Text(feedback?.comentario ?: "Carregando comentário...", fontSize = 16.sp, color = Color.Gray)
         }
 
-        val imagesAvaliacao = listOf(
-            R.drawable.camisetakiss, R.drawable.camisetakiss,
-            R.drawable.camisetakiss, R.drawable.camisetakiss
-        )
+        val imagensAvaliacao = feedback?.imagensFeedbacks
+            ?.map { it.imagemUrl }
+            ?.take(4)
+            ?: emptyList()
+
+        val imagensCompletasAvaliacao = buildList {
+            addAll(imagensAvaliacao)
+
+        }
+
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(imagesAvaliacao) { imageRes ->
-                Image(
-                    painter = painterResource(id = imageRes),
-                    contentDescription = "Imagem do Produto",
-                    modifier = Modifier
-                        .size(250.dp)
-                        .padding(horizontal = 8.dp)
-                )
+            items(imagensCompletasAvaliacao) { image ->
+                val painter = when (image) {
+                    else -> rememberAsyncImagePainter(model = image)
+                }
+
+                painter.let {
+                    Image(
+                        painter = it,
+                        contentDescription = "Imagem da Avaliação",
+                        modifier = Modifier
+                            .size(250.dp)
+                            .padding(horizontal = 8.dp)
+                    )
+                }
             }
         }
 

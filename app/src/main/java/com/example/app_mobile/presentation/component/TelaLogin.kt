@@ -16,13 +16,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.navigation.NavHostController
 import com.example.app_mobile.domain.model.SessaoUsuario
 import com.example.app_mobile.presentation.viewmodel.TelaLoginCadastroViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     onBack: () -> Unit = {},
@@ -40,7 +43,7 @@ fun LoginScreen(
     val erro = viewModel.erro
     val carregando = viewModel.carregando
 
-    var email by remember { mutableStateOf("pedro.saraujo@sptech.school") }
+    var email by remember { mutableStateOf("ketelyn.medina@sptech.school") }
     var senha by remember { mutableStateOf("123456") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
@@ -65,7 +68,10 @@ fun LoginScreen(
             onValueChange = { email = it },
             placeholder = { Text("Digite seu e-mail") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -76,7 +82,10 @@ fun LoginScreen(
             onValueChange = { senha = it },
             placeholder = { Text("Digite sua senha") },
             visualTransformation = if (senhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(24.dp))

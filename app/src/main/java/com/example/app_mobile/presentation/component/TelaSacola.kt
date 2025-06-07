@@ -1,8 +1,10 @@
 package com.example.app_mobile.presentation.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,12 +18,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,6 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -43,9 +48,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.app_mobile.R
+import com.example.app_mobile.domain.model.ProdutoDto
 import com.example.app_mobile.presentation.viewmodel.TelaSacolaViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun TelaSacola(navController: NavController,
                viewModel : TelaSacolaViewModel = koinViewModel()) {
@@ -55,10 +62,12 @@ fun TelaSacola(navController: NavController,
     }
 
     val itens = viewModel._produtosCarrinho
+    val subTotal = itens.sumOf { it.preco }
+    val subTotalFormatado = String.format("%.2f", subTotal)
 
     Scaffold(
         topBar = { CustomHeader(itens.size, navController) },
-        bottomBar = { FooterPagamento() }
+        bottomBar = { FooterPagamento(itens, subTotalFormatado) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -146,23 +155,60 @@ fun TelaSacola(navController: NavController,
 }
 
 @Composable
-fun FooterPagamento() {
+fun FooterPagamento(itens: List<ProdutoDto>, subTotal: String) {
+
+    if (itens.isNotEmpty()) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
             .padding(16.dp)
     ) {
-        Button(
-            onClick = { /* ação de seguir pagamento */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(text = stringResource(id = R.string.header_sacola), color = Color.White)
-        }
 
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Resumo do pedido",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "Subtotal", color = Color.Black)
+                    Text(text = "R$ $subTotal", color = Color.Black, fontWeight = FontWeight.Bold)
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+            }
+
+            Button(
+                onClick = { /* ação de seguir pagamento */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.checkout_pagamento),
+                    color = Color.White
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            }
+        }
     }
 }
 
@@ -178,7 +224,7 @@ fun CustomHeader(qtdItens: Int, navController: NavController) {
         },
         navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Voltar", tint = Color.White)
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar", tint = Color.White)
             }
         },
         modifier = Modifier.fillMaxWidth(),
@@ -195,7 +241,13 @@ fun buildHeaderText(qtdItens: Int): AnnotatedString {
         addStyle(SpanStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold), 0, length)
 
         if (qtdItens > 0) {
-            val itemText = " ($qtdItens itens)"
+            val itemText : String
+
+            if(qtdItens > 1) {
+                itemText = " ($qtdItens itens)"
+            } else {
+                itemText = " ($qtdItens item)"
+            }
             append(itemText)
             addStyle(SpanStyle(fontSize = 12.sp, fontWeight = FontWeight.Normal), length - itemText.length, length)
         }

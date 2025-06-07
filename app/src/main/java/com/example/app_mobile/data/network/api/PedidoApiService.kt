@@ -38,4 +38,9 @@ interface PedidoApiService {
         @Query("status") status: String
     ): List<PedidoDto>
 
+    @GET("pedidos/{id}")
+    suspend fun buscarCarrinho(
+        @Path("id") id: Int
+    ): CarrinhoDto
+
 }

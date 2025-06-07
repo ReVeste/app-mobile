@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,10 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 
 @Composable
 fun ComponentAvaliacoes(
-    imageResId: Int,
+    imageUrl: String,
     nome: String,
     especificacao: String
 ) {
@@ -37,11 +39,19 @@ fun ComponentAvaliacoes(
         Column(
             modifier = Modifier.fillMaxSize().background(Color.White)
         ) {
+            val painter = rememberImagePainter(
+                data = imageUrl,
+                builder = {
+                    crossfade(true)
+                }
+            )
+
             Image(
-                painter = painterResource(id = imageResId),
-                contentDescription = "Imagem",
+                painter = painter,
+                contentDescription = "Imagem da Avaliação",
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight()
                     .weight(2f)
                     .background(Color.White)
             )
@@ -54,7 +64,7 @@ fun ComponentAvaliacoes(
                     .background(Color.White)
             ) {
                 Text(
-                    text = nome,
+                    text = "Avaliação de $nome",
                     color = Color.Black,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold

@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -29,6 +28,11 @@ import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
 import com.example.app_mobile.presentation.viewmodel.TelaContaViewModel
 import org.koin.androidx.compose.koinViewModel
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 
 @Composable
@@ -37,7 +41,7 @@ fun TelaConta(
               viewModel: TelaContaViewModel = koinViewModel()
 ) {
 
-    var usuario = viewModel.usuarioLogado
+    val usuario = viewModel.usuarioLogado
 
     LaunchedEffect(usuario) {
         if (usuario.userId == null) {
@@ -45,7 +49,13 @@ fun TelaConta(
                 popUpTo("TelaConta") { inclusive = true }
             }
         }
+
+        viewModel.buscarPedidosFinalizados()
+        viewModel.buscarPedidosAvaliados()
     }
+
+    val pedidosFinalizados = viewModel._finalizados
+    val pedidosAvaliados = viewModel._avaliados
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -71,8 +81,14 @@ fun TelaConta(
         LazyColumn(
             modifier = Modifier.height(200.dp)
         ) {
-            items(10) { index ->
-                PedidoItem("Pedido $index", "Data $index") { /* Avaliar ação */ }
+            items(pedidosFinalizados.size) { pedido ->
+                PedidoItem(
+                    navController = navController,
+                    nome = "Pedido #${pedido+1}",
+                    data = pedidosFinalizados[pedido].dataHora,
+                    idPedido = pedidosFinalizados[pedido].id,
+                    onAvaliarClick = { /* ação para avaliar */ }
+                )
             }
         }
 
@@ -82,8 +98,11 @@ fun TelaConta(
         LazyColumn(
             modifier = Modifier.height(200.dp)
         ) {
-            items(5) { index ->
-                PedidoAvaliadoItem("Produto $index", "01/03/2025")
+            items(pedidosAvaliados.size) { pedido ->
+                PedidoAvaliadoItem(
+                    produto = "Avaliação #${pedido}",
+                    data = pedidosAvaliados[pedido].dataHora
+                )
             }
         }
     }
@@ -118,7 +137,17 @@ fun InformacoesUsuario(nome: String?, email: String?) {
 }
 
 @Composable
-fun PedidoItem(nome: String, data: String, onAvaliarClick: () -> Unit) {
+fun PedidoItem(navController: NavController, nome: String, data: String, idPedido: Int, onAvaliarClick: () -> Unit) {
+
+    fun formatarData(dataIso: String): String {
+        val formatterEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        val formatterSaida = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'às' HH:mm")
+            .withLocale(Locale("pt", "BR"))
+
+        val data = LocalDateTime.parse(dataIso, formatterEntrada)
+        return data.format(formatterSaida)
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,10 +156,10 @@ fun PedidoItem(nome: String, data: String, onAvaliarClick: () -> Unit) {
     ) {
         Column {
             Text(nome, fontWeight = FontWeight.Bold)
-            Text(data)
+            Text(formatarData(data))
         }
         Button(
-            onClick = { /*navController.navigate("TelaAvaliar/${1}")*/ },
+            onClick = { navController.navigate("TelaAvaliar/${idPedido}") },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFD9D9D9),
                 contentColor = Color.Black
@@ -143,12 +172,22 @@ fun PedidoItem(nome: String, data: String, onAvaliarClick: () -> Unit) {
 
 @Composable
 fun PedidoAvaliadoItem(produto: String, data: String) {
+
+    fun formatarData(dataIso: String): String {
+        val formatterEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        val formatterSaida = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy 'às' HH:mm")
+            .withLocale(Locale("pt", "BR"))
+
+        val data = LocalDateTime.parse(dataIso, formatterEntrada)
+        return data.format(formatterSaida)
+    }
+
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)) {
         Column {
             Text(produto, fontWeight = FontWeight.Bold)
-            Text(data)
+            Text(formatarData(data))
         }
         Spacer(modifier = Modifier.weight(1f))
         Text("Avaliado!", fontWeight = FontWeight.Bold, color = Color.Gray)
