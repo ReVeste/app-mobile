@@ -1,8 +1,10 @@
 <resources>
+    <string name="appmobile">Appmobile</string>
     <string name="icone">icone earthmoon</string>
     <string name="categoria_roupas">Roupas</string>
     <string name="categoria_acessorios">Acessórios</string>
     <string name="categoria_avaliacoes">Avaliações</string>
+    <string name="checkout_pagamento">Realizar Checkout</string>
     <string name="header_sacola">Minha sacola</string>
     <string name="botao_pagar">Pagar com Mercado Pago</string>
     <string name="botao_remover">Remover da sacola</string>
