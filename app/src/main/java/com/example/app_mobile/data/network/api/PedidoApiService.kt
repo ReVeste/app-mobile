@@ -5,14 +5,20 @@ import com.example.app_mobile.domain.model.ProdutoDto
 import com.example.app_mobile.domain.model.CarrinhoDto
 import com.example.app_mobile.domain.model.PedidoAdicionarProdutoDto
 import com.example.app_mobile.domain.model.PedidoDto
+import com.example.app_mobile.domain.model.Preference
+import com.example.app_mobile.domain.model.PreferenceDto
+import com.example.app_mobile.domain.model.Usuario
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -42,5 +48,18 @@ interface PedidoApiService {
     suspend fun buscarCarrinho(
         @Path("id") id: Int
     ): CarrinhoDto
+
+    @POST("pagamentos")
+    suspend fun criarPreferencia(@Body dto: PreferenceDto): Response<ResponseBody>
+
+    @GET("usuarios/{id}")
+    suspend fun buscarUsuario(
+        @Path("id") id: Int
+    ): Usuario
+
+    @PUT("pedidos/{idPedido}")
+    suspend fun atualizarPedidoPago(
+        @Path("idPedido") idPedido: Int
+    )
 
 }

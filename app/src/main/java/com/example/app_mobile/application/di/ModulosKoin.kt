@@ -92,7 +92,7 @@ val moduloGeral = module {
     }
 
     viewModel<TelaSacolaViewModel> {
-        TelaSacolaViewModel(get<PedidoApiService>(),get<SessaoUsuario>())
+        TelaSacolaViewModel(get<PedidoApiService>(),get<SessaoUsuario>(),get<EnderecoApiService>())
     }
 
 }

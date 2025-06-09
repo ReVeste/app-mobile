@@ -47,8 +47,6 @@ fun LoginScreen(
     var senha by remember { mutableStateOf("123456") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()

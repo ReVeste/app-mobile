@@ -13,6 +13,8 @@ import com.example.app_mobile.presentation.component.TelaPeca
 import com.example.app_mobile.presentation.component.TelaPrincipal
 import com.example.app_mobile.presentation.component.TelaSacola
 import android.util.Log
+import com.example.app_mobile.presentation.component.TelaCheckout
+import com.example.app_mobile.presentation.component.TelaPagamento
 import com.example.app_mobile.presentation.viewmodel.TelaAvaliacaoViewModel
 import com.example.app_mobile.presentation.viewmodel.TelaAvaliarViewModel
 import com.example.app_mobile.presentation.viewmodel.TelaContaViewModel
@@ -88,5 +90,14 @@ fun AppNavigation() {
             val index = backStackEntry.arguments?.getString("index")?.toIntOrNull() ?: 0
             TelaAvaliar(navController, index, telaAvaliarViewModel)
         }
+
+        composable(route = "TelaCheckout") {
+            TelaCheckout(navController, telaSacolaViewModel)
+        }
+
+        composable(route = "TelaPagamento") {
+            TelaPagamento(navController, telaSacolaViewModel)
+        }
+
     }
 }

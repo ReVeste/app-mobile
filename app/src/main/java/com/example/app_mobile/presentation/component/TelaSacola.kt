@@ -67,7 +67,7 @@ fun TelaSacola(navController: NavController,
 
     Scaffold(
         topBar = { CustomHeader(itens.size, navController) },
-        bottomBar = { FooterPagamento(itens, subTotalFormatado) }
+        bottomBar = { FooterPagamento(itens, subTotalFormatado, navController) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -155,7 +155,7 @@ fun TelaSacola(navController: NavController,
 }
 
 @Composable
-fun FooterPagamento(itens: List<ProdutoDto>, subTotal: String) {
+fun FooterPagamento(itens: List<ProdutoDto>, subTotal: String, navController: NavController) {
 
     if (itens.isNotEmpty()) {
 
@@ -193,7 +193,9 @@ fun FooterPagamento(itens: List<ProdutoDto>, subTotal: String) {
             }
 
             Button(
-                onClick = { /* ação de seguir pagamento */ },
+                onClick = {
+                    navController.navigate("TelaCheckout")
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
