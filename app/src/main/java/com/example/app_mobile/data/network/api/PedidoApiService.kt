@@ -35,7 +35,7 @@ interface PedidoApiService {
     @DELETE("pedidos/{idPedido}/produto/{idProduto}")
     suspend fun removerProduto(
         @Path("idPedido") idPedido: Int,
-        @Path("idProduto") idProduto: Int
+        @Path("idProduto") idProduto: String
     )
 
     @GET("pedidos/{idUsuario}/status")

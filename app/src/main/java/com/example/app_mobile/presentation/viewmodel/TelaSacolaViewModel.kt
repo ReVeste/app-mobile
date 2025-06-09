@@ -69,7 +69,7 @@ class TelaSacolaViewModel(
         }
     }
 
-    fun removerProdutoPedido(idPedido: Int, idProduto: Int) {
+    fun removerProdutoPedido(idPedido: Int, idProduto: String) {
         viewModelScope.launch {
             try {
                 api.removerProduto(idPedido, idProduto)
@@ -139,6 +139,8 @@ class TelaSacolaViewModel(
                 e.printStackTrace()
                 Log.e("API", "Erro ao buscar opções de frete: ${e.message}")
                 _erro.value = "Falha ao buscar opções de frete"
+            } finally {
+                criarPreferencia()
             }
         }
     }
@@ -146,10 +148,26 @@ class TelaSacolaViewModel(
     fun criarPreferencia() {
         viewModelScope.launch {
             try {
+                val freteMaisBarato = opcoesFrete
+                    .filter { it.custom_price != null && it.error == null }
+                    .minByOrNull { it.custom_price.toDouble() }
+                val frete = freteMaisBarato?.custom_price?.toDoubleOrNull() ?: 0.0
+
+                val valorFrete = ProdutoDto(
+                    id = "Frete",
+                    nome = "Frete",
+                    preco = frete,
+                    descricao = "Custo de entrega",
+                    qtdEstoque = 1
+                )
+
+                Log.e("Api", "Valor frete: $valorFrete")
+
+                val listaComFrete = _produtosCarrinho + valorFrete
                 val usuarioDetail = api.buscarUsuario(sessaoUsuario.userId!!)
 
                 val dto = PreferenceDto(
-                    itens = _produtosCarrinho.map { produto ->
+                    itens = listaComFrete.map { produto ->
                         ProdutosDto(
                             produtoId = produto.id.toString(),
                             produtoNome = produto.nome,

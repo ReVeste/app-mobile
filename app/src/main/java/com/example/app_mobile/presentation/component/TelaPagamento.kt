@@ -60,9 +60,9 @@ fun TelaPagamento(navController: NavController,
                   viewModel : TelaSacolaViewModel = koinViewModel()
 ) {
 
-    LaunchedEffect(Unit) {
-        viewModel.criarPreferencia()
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.criarPreferencia()
+//    }
 
     val itens = viewModel._produtosCarrinho
     val opcoesFrete = viewModel.opcoesFrete
@@ -195,7 +195,7 @@ fun TelaPagamento(navController: NavController,
                         containerColor = if (podeAvancar) Color(0xFF007AFF) else Color.Gray
                     )
                 ) {
-                    Text("Próximo", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("Concluir", color = Color.White, fontWeight = FontWeight.Bold)
                 }
 
                 if (mostrarMensagem) {

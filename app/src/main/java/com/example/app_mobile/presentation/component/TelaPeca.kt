@@ -78,10 +78,10 @@ fun TelaPeca(navController: NavController,
                 )
             }
 
-            Text(
-                text = "icone earthmoon",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(start = 8.dp)
+            Image(
+                painter = painterResource(id = R.drawable.earthmoonicon),
+                contentDescription = "Ícone Earth Moon",
+                modifier = Modifier.size(55.dp)
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -90,7 +90,7 @@ fun TelaPeca(navController: NavController,
                 Icon(
                     painter = painterResource(id = R.drawable.sacolaicon),
                     contentDescription = "Carrinho",
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(30.dp)
                 )
             }
         }

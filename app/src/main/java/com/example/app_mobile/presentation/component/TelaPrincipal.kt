@@ -1,5 +1,6 @@
 package com.example.app_mobile.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -135,14 +136,13 @@ fun CustomHeader(categoriaSelecionada: String, onCategoriaSelecionada: (String) 
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(id = R.string.icone),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f),
-                color = Color.Black
+            Image(
+                painter = painterResource(id = R.drawable.earthmoonicon),
+                contentDescription = "Ícone Earth Moon",
+                modifier = Modifier.size(55.dp)
             )
 
             IconButton(
@@ -152,7 +152,7 @@ fun CustomHeader(categoriaSelecionada: String, onCategoriaSelecionada: (String) 
                 Icon(
                     painter = painterResource(id = R.drawable.sacolaicon),
                     contentDescription = "Carrinho",
-                    modifier = Modifier.size(26.dp),
+                    modifier = Modifier.size(30.dp),
                     tint = Color.Black
                 )
             }
