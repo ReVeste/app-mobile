@@ -55,17 +55,20 @@ class TelaAvaliarViewModel(
         }
     }
 
-    // criar feedback
-
     fun criarAvaliacao(comentario: String, pedidoId: Int, usuarioId: Int?, imagens: SnapshotStateList<Any?>) {
         viewModelScope.launch {
             _erro.value = null
             try {
+                val images: List<String> = listOf(
+                    "https://cdn.awsli.com.br/600x700/2187/2187790/produto/132218860/170141a620.jpg",
+                    "https://ourivesariacentral.pt/images/thumbs/0008274_brincos-em-prata-com-perola-e-zirconias_1170.jpeg"
+                )
+
                 val dto = FeedbackRequisicaoDto(
                     comentario = comentario,
                     pedido = pedidoId,
                     usuario = usuarioId,
-                    //imagensFeedback = imagens
+                    imagensFeedback = images
                 )
                 apiFeedback.criarAvaliacao(dto)
 
