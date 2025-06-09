@@ -1,6 +1,9 @@
 package com.example.app_mobile.presentation.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -57,7 +60,10 @@ fun CriarContaScreen(
             value = nome,
             onValueChange = { nome = it },
             placeholder = { Text("Digite seu nome") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -67,7 +73,10 @@ fun CriarContaScreen(
             value = cpf,
             onValueChange = { cpf = it },
             placeholder = { Text("Digite seu CPF") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -77,7 +86,10 @@ fun CriarContaScreen(
             value = telefone,
             onValueChange = { telefone = it },
             placeholder = { Text("Digite seu telefone") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -87,7 +99,10 @@ fun CriarContaScreen(
             value = email,
             onValueChange = { email = it },
             placeholder = { Text("Digite seu e-mail") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -98,7 +113,10 @@ fun CriarContaScreen(
             onValueChange = { senha = it },
             placeholder = { Text("Digite sua senha") },
             visualTransformation = if (senhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                textColor = Color.Black
+            )
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -128,7 +146,6 @@ fun CriarContaScreen(
             Text(mensagemSucesso, color = Color.Green)
         }
 
-    }
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
@@ -136,5 +153,7 @@ fun CriarContaScreen(
             fontSize = 12.sp,
             color = Color.Gray
         )
+
     }
+}
 

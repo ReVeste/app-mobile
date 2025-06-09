@@ -60,10 +60,6 @@ fun TelaPagamento(navController: NavController,
                   viewModel : TelaSacolaViewModel = koinViewModel()
 ) {
 
-//    LaunchedEffect(Unit) {
-//        viewModel.criarPreferencia()
-//    }
-
     val itens = viewModel._produtosCarrinho
     val opcoesFrete = viewModel.opcoesFrete
 

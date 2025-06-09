@@ -43,8 +43,8 @@ fun LoginScreen(
     val erro = viewModel.erro
     val carregando = viewModel.carregando
 
-    var email by remember { mutableStateOf("ketelyn.medina@sptech.school") }
-    var senha by remember { mutableStateOf("123456") }
+    var email by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
     Column(
